@@ -1,7 +1,7 @@
 # Importing
 from operator import contains
 from turtle import Turtle, Screen
-from random import choice
+from random import choice, randint
 
 # Aliasing
 # import Turtle as t
@@ -9,14 +9,25 @@ from random import choice
 # Instantiation
 kiki = Turtle()
 
+screen = Screen()
+screen.colormode(255)
+
 # Shape and color
 kiki.shape("turtle")
 kiki.color("green")
-kiki.pensize(3)
+# kiki.pensize(3)
 
 # Set speed
-kiki.speed(10)
+kiki.speed("fastest")
 
+def random_color():
+    r = randint(0, 255)
+    b = randint(0, 255)
+    g = randint(0, 255)
+
+    rand_color = (r, g, b)
+
+    return rand_color
 
 def draw_square():
     # Motion
@@ -65,17 +76,29 @@ def draw_shapes(num_shapes=10):
         kiki.color(choice(color_list))
         draw_shape(num_sides=i, angle=grades/i)
 
-# def make_random_walk():
-#     print("hello")
-#     kiki.forward(100)
-#     kiki.circle(200)
+def random_walk():
+    directions = [0, 90, 180, 270]
+    kiki.pensize(4)
 
-# draw_shapes(10)
-# make_random_walk()
+    for _ in range(0, 200):
+        kiki.forward(30)
+        kiki.setheading(choice(directions))
+        kiki.color(random_color())
+
+def draw_spirograph():
+    for i in range(0, 100):
+        kiki.color(random_color())
+        kiki.circle(100, 360)
+        kiki.setheading(-i*5)
 
 
+draw_spirograph()
 
-screen = Screen()
+# make_dashed_line()
+# draw_shapes()
+# random_walk()
+
+
 screen.exitonclick()
 
 
