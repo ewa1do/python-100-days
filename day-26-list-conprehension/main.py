@@ -60,3 +60,4 @@ word = input("Enter a word:\n")
 
 word_list = [alphabet[letter.upper()] for letter in name]
 print(word_list)
+print(word_list)
