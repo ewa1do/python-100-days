@@ -1,4 +1,5 @@
 # List comprehension
+from math import expm1
 
 numbers = [1,2,3]
 new_numbers = [number+1 for number in numbers]
@@ -58,5 +59,26 @@ alphabet = {row.letter : row.code for (_, row) in alphabet_df.iterrows()}
 # TODO 2. Create a list of the phonetic code words from a word that the user inputs
 word = input("Enter a word:\n")
 
-word_list = [alphabet[letter.upper()] for letter in name]
-print(word_list)
+# With Loop
+while True:
+    try:
+        word_list = [alphabet[letter.upper()] for letter in word]
+    except KeyError:
+        print("Sorry only letters in the alphabet please")
+        word = input("Enter a word:\n")
+    else:
+        print(word_list)
+        break
+
+# With Recursion
+# def generate_phonetic():
+#     word = input("Enter a word:\n")
+#     try:
+#         word_list = [alphabet[letter.upper()] for letter in word]
+#     except KeyError:
+#         print("Sorry only letters in the alphabet please")
+#         generate_phonetic()
+#     else:
+#         print(word_list)
+#
+# generate_phonetic()
