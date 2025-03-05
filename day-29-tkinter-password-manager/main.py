@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -27,25 +28,45 @@ def generate_password():
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
 
-    website = website_input
-    email = email_input
-    password = password_input
+    website = website_input.get()
+    email = email_input.get()
+    password = password_input.get()
 
-    if not website.get() or not email.get() or not password.get():
+    new_data = {
+        website: {
+            "email": email,
+            "password": password,
+        }
+    }
+
+    if not website or not email or not password:
         messagebox.showwarning(title="Input required", message="You need to fill all entries first")
         return
 
-    is_user_ok = messagebox.askokcancel(title="", message=f"There are the details entered: \nEmail: {email.get()}\nWebsite: {website.get()}\nPassword: {password.get()}\nIs it ok to save?")
+    # is_user_ok = messagebox.askokcancel(title="", message=f"There are the details entered: \nEmail: {email.get()}\nWebsite: {website.get()}\nPassword: {password.get()}\nIs it ok to save?")
 
-    if not is_user_ok:
-        website.focus()
-        return
+    # if not is_user_ok:
+    #     website.focus()
+    #     return
 
-    with open("data.txt", mode="a") as file:
-        file.write(f"{website.get()} | {email.get()} | {password.get()} \n")
-        website.delete(0, END)
-        password.delete(0, END)
-        website.focus()
+    try:
+        with open("data.json", mode="r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        with open("data.json", mode="w") as data_file:
+            json.dump(new_data, data_file, indent=4)
+    else:
+        # data = json.load(data_file)
+        # Updating old data with new data
+        data.update(new_data)
+        with open("data.json", "w") as data_file:
+            # Saving updated data
+            json.dump(data, data_file, indent=4)
+            # print(data)
+    finally:
+            website_input.delete(0, END)
+            password_input.delete(0, END)
+            website_input.focus()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
