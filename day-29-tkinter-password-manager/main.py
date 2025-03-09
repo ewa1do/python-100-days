@@ -69,6 +69,31 @@ def save():
             website_input.focus()
 
 
+def find_password():
+    search = website_input.get()
+
+    if not search:
+        messagebox.showwarning(title="Oops", message="You have to type something to search")
+        return
+
+    try:
+        with open("data.json") as data:
+            data_dict = json.load(data)
+            print(data_dict[search])
+    except FileNotFoundError:
+        messagebox.showwarning(title="Error", message="No Data File Found")
+    except KeyError:
+        messagebox.showwarning(title="Error", message="No details for the website exists.")
+    else:
+        user_data = data_dict[search]
+        messagebox.showinfo(title=f"{search} data:", message=f"email: {user_data["email"]}\npassword: {user_data["password"]}")
+
+
+
+
+
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -105,5 +130,8 @@ generate_btn.grid(column=2, row=3)
 
 add_btn = Button(text="Add", width=36, command=save)
 add_btn.grid(column=1, row=4, columnspan=2)
+
+search_btn = Button(text="Search", command=find_password)
+search_btn.grid(column=2, row=1)
 
 window.mainloop()
